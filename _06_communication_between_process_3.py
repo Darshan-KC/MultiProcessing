@@ -12,9 +12,31 @@ def print_record(records) ->None:
     for record in records:
         print("Name :{}\t Score : {}".format(record[0],record[1]))
         
-def add_record(data,records) -> None:
+def add_record(records,data) -> None:
     """
+    Function to append new record
+    """
+    records.append(data)
+    print("New record has appended")
     
-    """
+def main():
+    with multiprocessing.Manager() as manager:
+        records = manager.list([("Ram",23),("Shyam",10),("Hari",10)])
+        
+        new_record = ["Krishna",15]
+        
+        p1 = multiprocessing.Process(target=add_record,args=(records,new_record))
+        p2 = multiprocessing.Process(target=print_record,args=(records,))
+        
+        p1.start()
+        # p1.join()
+        p2.start()
+        # p2.join()
+        
+        p1.join()
+        p2.join()
+
+if __name__ == "__main__":
+    main()
         
     
